@@ -1,13 +1,5 @@
 {
   "name": "Nueva Nota en Vivo",
-  "short_name": "Nueva Nota: En Vivo",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#0B0F19",
-  "theme_color": "#0B0F19",
-  "icons": [
-    {
-  "name": "Nueva Nota en Vivo",
   "short_name": "Nueva Nota: En vivo",
   "start_url": "./index.html",
   "display": "standalone",
@@ -26,7 +18,5 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
-}
   ]
 }
