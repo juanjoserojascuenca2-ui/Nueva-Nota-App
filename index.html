@@ -47,7 +47,7 @@
 
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-violet-600 selection:text-white relative">
+<body class="min-h-screen flex flex-col justify-between selection:bg-violet-600 selection:text-white relative overflow-hidden h-screen">
 
   <!-- ========================================== -->
   <!-- PORTADA INTERACTIVA (SPLASH SCREEN)        -->
@@ -61,7 +61,7 @@
 
       <!-- PLACA INTERACTIVA (Botón con animación de brillo y pulso) -->
       <button onclick="entrarALaApp()" type="button" class="group active:scale-95 transition-transform duration-300 focus:outline-none cursor-pointer">
-        <img src="Imágenes/placa en vivo.png" alt="En Vivo" class="w-60 sm:w-56 mt-[-100px] h-auto object-contain animate-[pulse_2s_ease-in-out_infinite] drop-shadow-[0_0_20px_rgba(16,185,129,0.4)] group-hover:drop-shadow-[0_0_35px_rgba(16,185,129,0.7)] transition-all">
+        <img src="Imágenes/placa en vivo.png" alt="En Vivo" class="w-60 sm:w-56 mt-[-100px] h-auto object-contain animate-[pulse_2s_ease-in-out_infinite] drop-shadow-[0_0_20px_rgba(139,92,246,0.5)] group-hover:drop-shadow-[0_0_35px_rgba(217,70,239,0.75)] transition-all">
       </button>
       
       <p class="mt-200 text-xs text-slate-400 tracking-wide">
@@ -81,7 +81,7 @@
   <img 
     src="Imágenes/top logo.png" 
     alt="Nueva Nota en Vivo" 
-    class="w-[220px] mt-[0px] mb-[0px] ml-[0px] h-auto object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
+    class="w-[220px] mt-[-200px] mb-[0px] ml-[0px] h-auto object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
   >
 </header>
 
@@ -607,17 +607,21 @@
 };
 
 function entrarALaApp() {
-      const splash = document.getElementById('splash-screen');
-      if (splash) {
-        // Efecto de desvanecimiento y desplazamiento suave hacia arriba
-        splash.classList.add('opacity-0', '-translate-y-6', 'pointer-events-none');
-        
-        // Ocultar por completo después de la animación (500ms)
-        setTimeout(() => {
-          splash.classList.add('hidden');
-        }, 500);
-      }
-    }
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    // 1. Oculta la portada interactiva
+    splash.classList.add('opacity-0', '-translate-y-6', 'pointer-events-none');
+    
+    // 2. Habilita el desplazamiento para navegar en Selección de Formato
+    document.body.classList.remove('overflow-hidden', 'h-screen');
+    document.body.classList.add('overflow-y-auto', 'overflow-x-hidden');
+    
+    // 3. Quita la portada por completo tras la animación
+    setTimeout(() => {
+      splash.classList.add('hidden');
+    }, 500);
+  }
+}
 
     function setFormat(fmt) {
       state.format = fmt;
