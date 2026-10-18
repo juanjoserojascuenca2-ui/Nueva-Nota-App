@@ -388,12 +388,12 @@ html, body {
     <section id="seccion-3" class="hidden flex-col justify-between flex-1 min-h-0 space-y-3 overflow-y-auto pr-1">
       <h2 class="text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black]">3. Nivel de Acompañamiento</h2>
       <div class="grid grid-cols-2 gap-3">
-        <button id="btn-level-1" onclick="setLevel(1)" type="button" class="p-7 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
+        <button id="btn-level-1" onclick="setLevel(1)" type="button" class="p-7 -mt-8 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
           <div class="font-bold text-base text-white">Nivel 1: Básico</div>
           <div class="text-base text-violet-300 font-medium mt-0.5">$45.000 COP / músico</div>
           <div class="text-sm text-slate-400 mt-1">Acompañamiento básico para cantar o tocar encima. Sin arreglos detallados ni figuras complejas.</div>
         </button>
-        <button id="btn-level-2" onclick="setLevel(2)" type="button" class="p-3.5 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
+        <button id="btn-level-2" onclick="setLevel(2)" type="button" class="p-3.5 -mt-8 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
           <div class="font-bold text-base text-white">Nivel 2: Detallado</div>
           <div class="text-base text-violet-300 font-medium mt-0.5">$90.000 COP / músico</div>
           <div class="text-sm text-slate-400 mt-1">Montaje fiel a la referencia: arreglos específicos, figuras y cambios exactos</div>
@@ -401,14 +401,14 @@ html, body {
           <div class="my-10"></div>
         </button>
       </div>
-      <!-- Cuadro informativo ocupando todo el ancho -->
-      <div class="w-full col-span-full p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2.5 clear-both">
-        <div class="flex items-start gap-2.5 text-sm">
-          <div class="text-violet-400 mt-0.5 shrink-0">ℹ️</div>
-          <div class="text-slate-300 space-y-1">
-            <p><strong class="text-white">Nivel 1 (Estándar):</strong> Para repertorio base y covers populares que el músico ya domina y ensaya de forma directa.</p>
-            <p><strong class="text-white">Nivel 2 (Dedicación y Estudio):</strong> Para música propia o arreglos específicos. El músico dedica horas previas a sacar tus canciones compás por compás antes de llegar al ensayo.</p>
-          </div>
+      <!-- Cuadro informativo ocupando todo el ancho (Modifica el -mt-2 o mt-2 para moverlo) -->
+      <div class="w-full col-span-full p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2.5 clear-both -mt-2">
+  <div class="flex items-start gap-2.5 text-sm">
+    <div class="text-violet-400 mt-0.5 shrink-0">ℹ️</div>
+    <div class="text-slate-300 space-y-4">
+      <p><strong class="text-white">Nivel 1 (Estándar):</strong> Para repertorio base y covers populares que el músico ya domina y ensaya de forma directa.</p>
+      <p><strong class="text-white">Nivel 2 (Dedicación y Estudio):</strong> Para música propia o arreglos específicos. El músico dedica horas previas a sacar tus canciones compás por compás antes de llegar al ensayo.</p>
+    </div>
         </div>
         <div class="pt-2 border-t border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[12px] text-slate-400">
           <span class="flex items-center gap-1.5">
@@ -445,7 +445,7 @@ html, body {
         <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
       <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
-        <img src="Imágenes/Batería.png" alt="Baterista" class="h-full max-h-[120px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+        <img src="Imágenes/Batería.png" alt="Baterista" class="h-full max-h-[180px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
       <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
         <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Baterista</div>
@@ -461,7 +461,7 @@ html, body {
         <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
       <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
-        <img src="Imágenes/Bajo.png" alt="Bajista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+        <img src="Imágenes/Bajo.png" alt="Bajista" class="h-full max-h-[180px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
       <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
         <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Bajista</div>
@@ -477,7 +477,7 @@ html, body {
         <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
       <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
-        <img src="Imágenes/Teclado.png" alt="Tecladista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+        <img src="Imágenes/Teclado.png" alt="Tecladista" class="h-full max-h-[180px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
       <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
         <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Tecladista</div>
@@ -493,7 +493,7 @@ html, body {
         <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
       <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
-        <img src="Imágenes/Guitarra.png" alt="Guitarrista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+        <img src="Imágenes/Guitarra.png" alt="Guitarrista" class="h-full max-h-[180px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
       <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
         <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Guitarrista</div>
