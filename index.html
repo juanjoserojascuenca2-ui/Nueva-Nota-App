@@ -21,12 +21,15 @@
   <!-- Tailwind CSS CDN para diseño moderno -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Bloqueo estricto del eje horizontal */
-    html, body {
-      max-width: 100vw;
-      overflow-x: hidden !important;
-      position: relative;
-    }
+    /* Bloqueo estricto del eje vertical y horizontal */
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden !important;
+  position: fixed;
+  margin: 0;
+  padding: 0;
+}
 
     /* Se agrupa el body y el splash-screen para que tengan exactamente el mismo fondo */
     body, #splash-screen {
@@ -74,105 +77,140 @@
   </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-violet-600 selection:text-white relative">
 
-  <!-- Contenedor principal centrado -->
-  <div class="w-full max-w-xl mx-auto flex-1 flex flex-col px-4 sm:px-6 py-6 space-y-7 pb-44">
+<!-- Contenedor principal centrado (NO LO CAMBIAMOS) -->
+<div class="w-full max-w-xl mx-auto flex-1 flex flex-col px-4 sm:px-6 py-6 space-y-7 pb-44">
     
-   <header class="flex justify-center items-center pt-3 pb-0 px-4">
-  <img 
-    src="Imágenes/top logo.png" 
-    alt="Nueva Nota en Vivo" 
-    class="w-[220px] mt-[-200px] mb-[0px] ml-[0px] h-auto object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
-  >
-</header>
+  <!-- ENVOLTORIO FIJO: Ahora tiene fondo sólido (bg-[#0B0F19]) y un poco de padding inferior (pb-2) para tapar el scroll por arriba -->
+  <div class="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 sm:px-6 pt-6 pb-2 backdrop-blur-md">
+    
+    <!-- BARRA SUPERIOR CON ALTURA FIJA (Ya no se estirará y persigue al hacer scroll) -->
+    <header class="flex items-center justify-between w-full max-w-xl h-[60px] px-4 bg-[#0B0F19]/90 backdrop-blur-md border-b border-slate-700/60 rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.3)]">
+        
+      <!-- Izquierda: Imagen de "Nueva Nota" -->
+      <div class="flex items-center">
+        <img 
+          src="Imágenes/nueva nota horizontal.png" 
+          alt="Nueva Nota" 
+          class="h-[80px] sm:h-[24px] md:h-[28px] w-auto object-contain drop-shadow-md"
+        >
+      </div>
 
+      <!-- Derecha: Imagen de "En Vivo" y menú -->
+      <div class="flex items-center gap-3">
+        <img 
+          src="Imágenes/placa en vivo.png" 
+          alt="En Vivo" 
+          class="h-[55px] sm:h-[28px] w-auto object-contain drop-shadow-md"
+        >
+      </div>
+
+    </header>
+  </div>
+
+</div>
+
+<!-- Contenedor principal centrado -->
+<div class="w-full max-w-xl mx-auto flex-1 flex flex-col px-4 sm:px-6 py-6 space-y-7 pb-[108px]">
+  
+  <!-- Contenedor que encierra TODAS las secciones y los botones en el límite exacto -->
+  <div class="flex flex-col justify-between h-[calc(100dvh-200px)] !mt-[-300px]">
+    
     <!-- SECCIÓN 1: FORMATO DE LA SESIÓN -->
-    <body class="min-h-screen flex flex-col justify-between selection:bg-violet-600 selection:text-white relative"></body>
-   <section class="space-y-3 pt-8">
-  <h2 class="text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black] drop-shadow-[0_2px_4px_rgba(255,255,255,0.15)]">
-    1. Formato de la sesión
-  </h2>
-  
-  <div class="grid grid-cols-2 gap-3">
-    <!-- Botón Individual (Neutral al cargar) -->
-    <button id="btn-format-solo" onclick="setFormat('solo')" type="button" class="p-4 rounded-xl text-center border border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-700 transition-colors flex flex-col items-center">
-      <img id="avatar-individual" src="Imágenes/Individual.png" alt="Individual" class="h-[180px] w-auto mb-3 object-contain mx-auto">
-      <div class="w-full text-center font-bold text-base text-white">Sesión Individual</div>
-      <div class="w-full text-center text-[15px] text-slate-400 mt-1 leading-snug">
-      Tú diriges la sesión, todo a tu ritmo.
+    <section id="seccion-1" class="flex flex-col justify-between flex-1 min-h-0 space-y-3">
+      
+      <h2 class="flex-none text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black] drop-shadow-[0_2px_4px_rgba(255,255,255,0.15)]">
+        1. Formato de la sesión
+      </h2>
+      
+      <!-- Cambiado a flex-col para apilar un botón debajo del otro -->
+      <div class="flex flex-col gap-3 flex-1 min-h-0">
+        <!-- Botón Individual (Arriba) -->
+        <button id="btn-format-solo" onclick="setFormat('solo')" type="button" class="flex-1 min-h-0 p-4 rounded-xl text-center border border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-700 transition-colors flex flex-col items-center justify-center">
+          <img id="avatar-individual" src="Imágenes/Individual.png" alt="Individual" class="flex-1 min-h-0 max-h-[180px] w-auto mb-3 object-contain mx-auto">
+          <div class="flex-none w-full text-center font-bold text-base text-white">Sesión Individual</div>
+          <div class="flex-none w-full text-center text-[15px] text-slate-400 mt-1 leading-snug">
+          Tú diriges la sesión, todo a tu ritmo.
+          </div>
+        </button>
+
+        <!-- Botón Grupal (Abajo) -->
+        <button id="btn-format-group" onclick="setFormat('group')" type="button" class="flex-1 min-h-0 p-4 rounded-xl text-center border border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-700 transition-colors flex flex-col items-center justify-center">
+          <img id="avatar-grupal" src="Imágenes/Grupal.png" alt="Sesión Grupal" class="flex-1 min-h-0 max-h-[180px] w-auto mb-3 object-contain mx-auto">
+          <div class="flex-none w-full text-center font-bold text-base text-white">Sesión Grupal</div>
+          <div class="flex-none w-full text-center text-[15px] text-slate-400 mt-1 leading-snug">
+           Suma el refuerzo instrumental que necesitas y divide los costos con tu equipo
+          </div>
+        </button>
       </div>
-    </button>
 
-    <!-- Botón Grupal (Neutral al cargar) -->
-    <button id="btn-format-group" onclick="setFormat('group')" type="button" class="p-4 rounded-xl text-center border border-slate-800 bg-slate-900/60 text-slate-400 hover:border-slate-700 transition-colors flex flex-col items-center">
-      <img id="avatar-grupal" src="Imágenes/Grupal.png" alt="Sesión Grupal" class="h-[180px] w-auto mb-3 object-contain mx-auto">
-      <div class="w-full text-center font-bold text-base text-white">Sesión Grupal</div>
-      <div class="w-full text-center text-[15px] text-slate-400 mt-1 leading-snug">
-       Suma el refuerzo instrumental que necesitas y divide los costos con tu equipo
+      <!-- Selector de integrantes para grupo (Integrado al límite de la sección) -->
+      <div id="group-members-container" class="hidden flex-none p-3 bg-violet-950/30 border border-violet-800/40 rounded-xl space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-300 font-medium text-sm">¿Cuántos integrantes dividen la cuenta?</span>
+          
+          <!-- Opciones 2, 3 y 4 -->
+          <div class="flex items-center gap-1.5">
+            <!-- Opción 2 -->
+            <label class="cursor-pointer">
+              <input type="radio" name="members-count" value="2" checked onchange="actualizarSplitBanda()" class="peer sr-only">
+              <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-400 peer-checked:bg-violet-600 peer-checked:text-white hover:bg-slate-700">
+                2
+              </div>
+            </label>
+
+            <!-- Opción 3 -->
+            <label class="cursor-pointer">
+              <input type="radio" name="members-count" value="3" onchange="actualizarSplitBanda()" class="peer sr-only">
+              <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-400 peer-checked:bg-violet-600 peer-checked:text-white hover:bg-slate-700">
+                3
+              </div>
+            </label>
+
+            <!-- Opción 4 -->
+            <label class="cursor-pointer">
+              <input type="radio" name="members-count" value="4" onchange="actualizarSplitBanda()" class="peer sr-only">
+              <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-400 peer-checked:bg-violet-600 peer-checked:text-white hover:bg-slate-700">
+                4
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Desglose por integrante -->
+        <div class="pt-2 border-t border-violet-800/30 flex items-center justify-between text-[13px]">
+          <span class="text-violet-300">Aporte estimado por persona:</span>
+          <span id="label-split-member" class="font-bold text-white text-base">$ 35.000 COP</span>
+        </div>
       </div>
-    </button>
-  </div>
-</section>
-<!-- Selector de integrantes para grupo -->
-<div id="group-members-container" class="hidden p-3 bg-violet-950/30 border border-violet-800/40 rounded-xl space-y-2 text-xs">
-  <div class="flex items-center justify-between">
-    <span class="text-slate-300 font-medium text-sm">¿Cuántos integrantes dividen la cuenta?</span>
-    
-    <!-- Opciones 2, 3 y 4 -->
-    <div class="flex items-center gap-1.5">
-      <!-- Opción 2 -->
-      <label class="cursor-pointer">
-        <input type="radio" name="members-count" value="2" checked onchange="actualizarSplitBanda()" class="peer sr-only">
-        <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-400 peer-checked:bg-violet-600 peer-checked:text-white hover:bg-slate-700">
-          2
-        </div>
-      </label>
+    </section>
 
-      <!-- Opción 3 -->
-      <label class="cursor-pointer">
-        <input type="radio" name="members-count" value="3" onchange="actualizarSplitBanda()" class="peer sr-only">
-        <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-400 peer-checked:bg-violet-600 peer-checked:text-white hover:bg-slate-700">
-          3
-        </div>
-      </label>
-
-      <!-- Opción 4 -->
-      <label class="cursor-pointer">
-        <input type="radio" name="members-count" value="4" onchange="actualizarSplitBanda()" class="peer sr-only">
-        <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center transition-all bg-slate-800 text-slate-400 peer-checked:bg-violet-600 peer-checked:text-white hover:bg-slate-700">
-          4
-        </div>
-      </label>
-    </div>
-  </div>
-
-  <!-- Desglose por integrante -->
-  <div class="pt-2 border-t border-violet-800/30 flex items-center justify-between text-[13px]">
-    <span class="text-violet-300">Aporte estimado por persona:</span>
-    <span id="label-split-member" class="font-bold text-white text-base">$ 35.000 COP</span>
-  </div>
-</div>
     <!-- SECCIÓN 2: TIPO DE REPERTORIO -->
-    <section class="space-y-3">
-      <h2 class="text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black]text-base font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black]text-base font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black]">2. Tipo de Repertorio</h2>
-      <div class="space-y-2">
-      <!-- Contador visual de canciones -->
-<div class="flex items-center justify-between px-3.5 py-2 mb-3 rounded-xl border border-slate-800 bg-slate-900/60">
-  <span class="text-sm text-slate-300 font-medium">Canciones seleccionadas:</span>
-  
-  <!-- Insignia dinámica -->
-  <span id="badge-contador" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full border transition-all duration-300 bg-amber-950/70 border-amber-500/50 text-amber-400">
-    <span id="contador-canciones">0</span> / 5
-  </span>
-</div>
-<div id="contenedor-repertorio" class="space-y-3 transition-all duration-300"></div>
+    <section id="seccion-2" class="hidden flex-col justify-between flex-1 min-h-0 space-y-3 overflow-y-auto pr-1">
+      <h2 class="flex-none text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black]">
+        2. Tipo de Repertorio
+      </h2>
+      <div class="flex flex-col flex-1 min-h-0 space-y-2">
+        
+        <!-- Contador visual de canciones -->
+        <div class="flex items-center justify-between px-3.5 py-2 mb-3 rounded-xl border border-slate-800 bg-slate-900/60">
+          <span class="text-sm text-slate-300 font-medium">Canciones seleccionadas:</span>
+          
+          <!-- Insignia dinámica -->
+          <span id="badge-contador" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full border transition-all duration-300 bg-amber-950/70 border-amber-500/50 text-amber-400">
+            <span id="contador-canciones">0</span> / 5
+          </span>
+
+        </div>
+        <div id="contenedor-repertorio" class="space-y-3 transition-all duration-300"></div>
+          
         <!-- Catálogo base -->
         <label class="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 flex items-start gap-3 cursor-pointer hover:border-slate-700 transition-all">
-  <input type="radio" name="repertory_type" value="standard" onclick="toggleRepertory(this)" class="mt-1 accent-violet-600">
-  <div>
-    <div class="font-bold text-base text-white">Catálogo Base del Mes</div>
-    <div class="text-sm text-slate-400">Nuestros músicos han preparado este repertorio para ti.</div>
-  </div>
-</label>
+          <input type="radio" name="repertory_type" value="standard" onclick="toggleRepertory(this)" class="mt-1 accent-violet-600">
+          <div>
+            <div class="font-bold text-base text-white">Catálogo Base del Mes</div>
+            <div class="text-sm text-slate-400">Nuestros músicos han preparado este repertorio para ti.</div>
+          </div>
+        </label>
         
         <div id="caja-canciones" class="hidden mt-2 p-3 bg-slate-950/80 border border-violet-500/30 rounded-xl space-y-2">
           <!-- TÍTULO Y DESCRIPCIÓN DEL SETLIST -->
@@ -182,372 +220,321 @@
               Escoge mínimo 4 y máximo 5 canciones para tu sesión.
             </p>
           </div>
-      
 
-        <!-- Canción 1 --> 
-        <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
-  <div class="flex items-center gap-3">
-    <!-- AQUÍ ESTÁ EL CAMBIO: clase song-checkbox y onchange agregado -->
-    <input type="checkbox" name="cancion_catalogo" value="Get Lucky" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
-    <div>
-      <div class="text-sm font-semibold text-white">Get Lucky <span class="text-slate-400 font-normal text-xs">Daft Punk</span></div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: F#m</span>
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">116 BPM</span>
-      </div>
-    </div>
-  </div>
-  <a href="https://youtu.be/5NV6Rdv1a3I" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
-    <span>Guía</span> 🎵
-  </a>
-</label>
-
-        <!-- Canción 2 -->
-        <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
-  <div class="flex items-center gap-3">
-    <input type="checkbox" name="cancion_catalogo" value="Treasure" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
-    <div>
-      <div class="text-sm font-semibold text-white">Treasure <span class="text-slate-400 font-normal text-xs">Bruno Mars</span></div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Eb / Cm</span>
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">116 BPM</span>
-      </div>
-    </div>
-  </div>
-  <a href="https://youtu.be/nPvuNsRQD8o" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
-    <span>Guía</span> 🎵
-  </a>
-</label>
-
-        <!-- Canción 3 -->
-        <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
-  <div class="flex items-center gap-3">
-    <input type="checkbox" name="cancion_catalogo" value="Attention" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
-    <div>
-      <div class="text-sm font-semibold text-white">Attention <span class="text-slate-400 font-normal text-xs">Charlie Puth</span></div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Ebm</span>
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">100 BPM</span>
-      </div>
-    </div>
-  </div>
-  <a href="https://youtu.be/nfs8NYg7yQM" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
-    <span>Guía</span> 🎵
-  </a>
-</label>
-
-<!-- Canción 4 -->
-<label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
-  <div class="flex items-center gap-3">
-    <input type="checkbox" name="cancion_catalogo" value="Uptown Funk" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
-    <div>
-      <div class="text-sm font-semibold text-white">Uptown Funk <span class="text-slate-400 font-normal text-xs">Mark Ronson ft. Bruno Mars</span></div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Dm</span>
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">115 BPM</span>
-      </div>
-    </div>
-  </div>
-  <a href="https://youtu.be/OPf0YbXqDm0" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
-    <span>Guía</span> 🎵
-  </a>
-</label>
-
-<!-- Canción 5 -->
-<label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
-  <div class="flex items-center gap-3">
-    <input type="checkbox" name="cancion_catalogo" value="Blinding Lights" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
-    <div>
-      <div class="text-sm font-semibold text-white">Blinding Lights <span class="text-slate-400 font-normal text-xs">The Weeknd</span></div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Fm</span>
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">171 BPM</span>
-      </div>
-    </div>
-  </div>
-  <a href="https://youtu.be/4NRXx6U8ABQ" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
-    <span>Guía</span> 🎵
-  </a>
-</label>
-
-<!-- Canción 6 -->
-<label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
-  <div class="flex items-center gap-3">
-    <input type="checkbox" name="cancion_catalogo" value="Levitating" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
-    <div>
-      <div class="text-sm font-semibold text-white">Levitating <span class="text-slate-400 font-normal text-xs">Dua Lipa</span></div>
-      <div class="flex items-center gap-2 mt-1">
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Bm</span>
-        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">103 BPM</span>
-      </div>
-    </div>
-  </div>
-  <a href="https://youtu.be/TUVcZfQe-Kw" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
-    <span>Guía</span> 🎵
-  </a>
-</label>
-</div>
-<!-- Repertorio fuera del Setlist Nueva Nota -->
-<div id="seccion-repertorio-personalizado" class="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 transition-all">
-  <!-- Checkbox principal: solo abre o cierra la sección, no suma al contador -->
-  <label class="flex items-start gap-3 cursor-pointer select-none">
-    <input 
-      type="checkbox" 
-      id="check-custom-song" 
-      name="panel_personalizado" 
-      onchange="toggleCustomSong(this)" 
-      class="mt-1 accent-violet-600">
-    <div class="flex-1">
-      <div class="font-bold text-base text-white">Setlist Personalizado</div>
-      <div class="text-sm text-slate-400">Requiere montaje específico previo.</div>
-    </div>
-  </label>
-  
-  <!-- Contenedor desplegable -->
-  <div id="custom-inputs" class="hidden space-y-2 pt-3 mt-2 border-t border-slate-800/80">
-    <div id="lista-canciones-custom" class="space-y-2">
-      <!-- Tarjeta editable con diseño gemelo al catálogo base -->
-      <div class="tarjeta-custom p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 transition-all flex items-start gap-3">
-        <!-- Este check interno es el que suma al tope de 5 canciones -->
-        <input 
-          type="checkbox" 
-          name="cancion_personalizada_item" 
-          onchange="limitarCanciones(this)" 
-          class="song-checkbox mt-1.5 accent-violet-500 cursor-pointer">
-        
-        <div class="flex-1 space-y-2">
-          <!-- Título y artista en la misma línea visual -->
-          <div class="flex items-center gap-2 flex-wrap">
-            <input 
-              type="text" 
-              placeholder="Título de la canción" 
-              class="bg-slate-950/80 border border-slate-800 focus:border-violet-500 rounded px-2.5 py-1.5 font-semibold text-sm text-white placeholder-slate-500 focus:outline-none w-48">
-            <span class="text-slate-500 text-sm font-bold">-</span>
-            <input 
-              type="text" 
-              placeholder="Artista / Banda" 
-              class="bg-slate-950/80 border border-slate-800 focus:border-violet-500 rounded px-2.5 py-1.5 text-xs text-slate-300 placeholder-slate-600 focus:outline-none w-40">
-          </div>
-
-          <!-- Badges de Tono y Enlace con los mismos estilos -->
-          <div class="flex flex-wrap items-center gap-2 pt-0.5">
-            <div class="flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">
-              <span class="font-sans font-medium">Tono:</span>
-              <input 
-                type="text" 
-                placeholder="ej. Bm" 
-                class="bg-transparent w-16 text-violet-200 placeholder-violet-400/40 focus:outline-none font-mono text-[11px]">
+          <!-- Canción 1 --> 
+          <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" name="cancion_catalogo" value="Get Lucky" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
+              <div>
+                <div class="text-sm font-semibold text-white">Get Lucky <span class="text-slate-400 font-normal text-xs">Daft Punk</span></div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: F#m</span>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">116 BPM</span>
+                </div>
+              </div>
             </div>
+            <a href="https://youtu.be/5NV6Rdv1a3I" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
+              <span>Guía</span> 🎵
+            </a>
+          </label>
 
-            <div class="flex items-center gap-1.5 text-[11px] px-5 py-1 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">
-              <span>Guía 🎵:</span>
-              <input 
-                type="url" 
-                placeholder="Enlace de referencia (YouTube, Spotify)" 
-                class="bg-transparent w-56 text-cyan-200 placeholder-cyan-400/40 focus:outline-none text-[11px]">
+          <!-- Canción 2 -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" name="cancion_catalogo" value="Treasure" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
+              <div>
+                <div class="text-sm font-semibold text-white">Treasure <span class="text-slate-400 font-normal text-xs">Bruno Mars</span></div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Eb / Cm</span>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">116 BPM</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://youtu.be/nPvuNsRQD8o" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
+              <span>Guía</span> 🎵
+            </a>
+          </label>
+
+          <!-- Canción 3 -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" name="cancion_catalogo" value="Attention" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
+              <div>
+                <div class="text-sm font-semibold text-white">Attention <span class="text-slate-400 font-normal text-xs">Charlie Puth</span></div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Ebm</span>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">100 BPM</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://youtu.be/nfs8NYg7yQM" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
+              <span>Guía</span> 🎵
+            </a>
+          </label>
+
+          <!-- Canción 4 -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" name="cancion_catalogo" value="Uptown Funk" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
+              <div>
+                <div class="text-sm font-semibold text-white">Uptown Funk <span class="text-slate-400 font-normal text-xs">Mark Ronson ft. Bruno Mars</span></div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Dm</span>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">115 BPM</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://youtu.be/OPf0YbXqDm0" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
+              <span>Guía</span> 🎵
+            </a>
+          </label>
+
+          <!-- Canción 5 -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" name="cancion_catalogo" value="Blinding Lights" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
+              <div>
+                <div class="text-sm font-semibold text-white">Blinding Lights <span class="text-slate-400 font-normal text-xs">The Weeknd</span></div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Fm</span>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">171 BPM</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://youtu.be/4NRXx6U8ABQ" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
+              <span>Guía</span> 🎵
+            </a>
+          </label>
+
+          <!-- Canción 6 -->
+          <label class="flex items-center justify-between p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 cursor-pointer transition-all">
+            <div class="flex items-center gap-3">
+              <input type="checkbox" name="cancion_catalogo" value="Levitating" onchange="limitarCanciones(this)" class="song-checkbox accent-violet-500 cursor-pointer">
+              <div>
+                <div class="text-sm font-semibold text-white">Levitating <span class="text-slate-400 font-normal text-xs">Dua Lipa</span></div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">Tono: Bm</span>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">103 BPM</span>
+                </div>
+              </div>
+            </div>
+            <a href="https://youtu.be/TUVcZfQe-Kw" target="_blank" class="text-xs font-medium text-violet-400 hover:text-violet-300 hover:underline flex items-center gap-1">
+              <span>Guía</span> 🎵
+            </a>
+          </label>
+        </div>
+
+        <!-- Repertorio fuera del Setlist Nueva Nota -->
+        <div id="seccion-repertorio-personalizado" class="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 transition-all">
+          <label class="flex items-start gap-3 cursor-pointer select-none">
+            <input type="checkbox" id="check-custom-song" name="panel_personalizado" onchange="toggleCustomSong(this)" class="mt-1 accent-violet-600">
+            <div class="flex-1">
+              <div class="font-bold text-base text-white">Setlist Personalizado</div>
+              <div class="text-sm text-slate-400">Requiere montaje específico previo.</div>
+            </div>
+          </label>
+          
+          <div id="custom-inputs" class="hidden space-y-2 pt-3 mt-2 border-t border-slate-800/80">
+            <div id="lista-canciones-custom" class="space-y-2">
+              <div class="tarjeta-custom p-3 rounded-lg bg-slate-900/70 border border-slate-800 hover:border-violet-500/50 transition-all flex items-start gap-3">
+                <input type="checkbox" name="cancion_personalizada_item" onchange="limitarCanciones(this)" class="song-checkbox mt-1.5 accent-violet-500 cursor-pointer">
+                <div class="flex-1 space-y-2">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <input type="text" placeholder="Título de la canción" class="bg-slate-950/80 border border-slate-800 focus:border-violet-500 rounded px-2.5 py-1.5 font-semibold text-sm text-white placeholder-slate-500 focus:outline-none w-48">
+                    <span class="text-slate-500 text-sm font-bold">-</span>
+                    <input type="text" placeholder="Artista / Banda" class="bg-slate-950/80 border border-slate-800 focus:border-violet-500 rounded px-2.5 py-1.5 text-xs text-slate-300 placeholder-slate-600 focus:outline-none w-40">
+                  </div>
+                  <div class="flex flex-wrap items-center gap-2 pt-0.5">
+                    <div class="flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1 rounded bg-violet-950/60 border border-violet-500/40 text-violet-300">
+                      <span class="font-sans font-medium">Tono:</span>
+                      <input type="text" placeholder="ej. Bm" class="bg-transparent w-16 text-violet-200 placeholder-violet-400/40 focus:outline-none font-mono text-[11px]">
+                    </div>
+                    <div class="flex items-center gap-1.5 text-[11px] px-5 py-1 rounded bg-cyan-950/50 border border-cyan-500/30 text-cyan-300">
+                      <span>Guía 🎵:</span>
+                      <input type="url" placeholder="Enlace de referencia (YouTube, Spotify)" class="bg-transparent w-56 text-cyan-200 placeholder-cyan-400/40 focus:outline-none text-[11px]">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" onclick="agregarTarjetaCustom()" class="w-full mt-2 py-2.5 border border-dashed border-violet-500/40 hover:border-violet-400 bg-violet-950/20 hover:bg-violet-950/40 text-violet-300 text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-all">
+              <span class="text-base font-bold leading-none">+</span> Agregar otra canción personalizada
+            </button>
+          </div>
+        </div>
+
+        <!-- CONTENEDOR MÚSICA ORIGINAL -->
+        <div class="space-y-2">
+          <label id="card-original" class="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 flex items-start gap-3 cursor-pointer hover:border-slate-700 transition-all select-none">
+            <input type="checkbox" id="chk-original" onchange="toggleOriginal(this)" class="mt-1 accent-violet-600 rounded cursor-pointer">
+            <div class="flex-1">
+              <div class="font-bold text-base text-white">Proyecto Personal / Música Original</div>
+              <div class="text-sm text-slate-400">Ensayo sobre material propio estructurado.</div>
+            </div>
+          </label>
+          <div id="original-notice" class="hidden space-y-2 p-3 rounded-xl bg-slate-950/80 border border-violet-500/30">
+            <label class="block text-sm font-semibold text-violet-300">Enlace del material de referencia:</label>
+            <input type="url" id="input-original-link" placeholder="Pega aquí enlace de Drive, YouTube, Soundcloud..." class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-violet-500">
+            <div class="p-2.5 rounded-lg bg-violet-950/40 border border-violet-800/40 text-[14px] text-violet-300">
+              ℹ️ Sesión de ensayo y ensamble técnico. Máximo 5 canciones por sesión.
             </div>
           </div>
         </div>
+
       </div>
-    </div>
-
-    <!-- Botón para añadir otra canción personalizada -->
-    <button 
-      type="button" 
-      onclick="agregarTarjetaCustom()" 
-      class="w-full mt-2 py-2.5 border border-dashed border-violet-500/40 hover:border-violet-400 bg-violet-950/20 hover:bg-violet-950/40 text-violet-300 text-sm font-semibold rounded-lg flex items-center justify-center gap-2 transition-all">
-      <span class="text-base font-bold leading-none">+</span> Agregar otra canción personalizada
-    </button>
-  </div>
-</div>
-<!-- CONTENEDOR MÚSICA ORIGINAL -->
-<div class="space-y-2">
-  <label id="card-original" class="p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 flex items-start gap-3 cursor-pointer hover:border-slate-700 transition-all select-none">
-    <input 
-      type="checkbox" 
-      id="chk-original" 
-      onchange="toggleOriginal(this)" 
-      class="mt-1 accent-violet-600 rounded cursor-pointer"
-    >
-    <div class="flex-1">
-      <div class="font-bold text-base text-white">Proyecto Personal / Música Original</div>
-      <div class="text-sm text-slate-400">Ensayo sobre material propio estructurado.</div>
-    </div>
-  </label>
-
-  <!-- Cuadro que aparece y desaparece -->
-  <div id="original-notice" class="hidden space-y-2 p-3 rounded-xl bg-slate-950/80 border border-violet-500/30">
-    <label class="block text-sm font-semibold text-violet-300">Enlace del material de referencia:</label>
-    <input 
-      type="url" 
-      id="input-original-link" 
-      placeholder="Pega aquí enlace de Drive, YouTube, Soundcloud..." 
-      class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-violet-500"
-    >
-    <div class="p-2.5 rounded-lg bg-violet-950/40 border border-violet-800/40 text-[14px] text-violet-300">
-      ℹ️ Sesión de ensayo y ensamble técnico. Máximo 5 canciones por sesión.
-    </div>
-  </div>
-</div>
-
- <!-- Espaciador -->
-  <div class="h-3"></div>
+    </section>
 
     <!-- SECCIÓN 3: NIVEL DE ACOMPAÑAMIENTO -->
-    <section class="space-y-3">
+    <section id="seccion-3" class="hidden flex-col justify-between flex-1 min-h-0 space-y-3 overflow-y-auto pr-1">
       <h2 class="text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black]">3. Nivel de Acompañamiento</h2>
       <div class="grid grid-cols-2 gap-3">
-        <button id="btn-level-1" onclick="setLevel(1)" type="button" class="p-3.5 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
+        <button id="btn-level-1" onclick="setLevel(1)" type="button" class="p-7 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
           <div class="font-bold text-base text-white">Nivel 1: Básico</div>
           <div class="text-base text-violet-300 font-medium mt-0.5">$45.000 COP / músico</div>
-          <div class="text-sm  text-slate-400 mt-1">Acompañamiento básico para cantar o tocar encima. Sin arreglos detallados ni figuras complejas.</div>
+          <div class="text-sm text-slate-400 mt-1">Acompañamiento básico para cantar o tocar encima. Sin arreglos detallados ni figuras complejas.</div>
         </button>
         <button id="btn-level-2" onclick="setLevel(2)" type="button" class="p-3.5 rounded-xl text-left border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 transition-all">
           <div class="font-bold text-base text-white">Nivel 2: Detallado</div>
           <div class="text-base text-violet-300 font-medium mt-0.5">$90.000 COP / músico</div>
-          <div class="text-sm  text-slate-400 mt-1">Montaje fiel a la referencia: arreglos específicos, figuras y cambios exactos</div>
-         <!-- Espaciador visual para alinear altura de tarjetas y fuentes -->
-<div class="my-5"></div>
+          <div class="text-sm text-slate-400 mt-1">Montaje fiel a la referencia: arreglos específicos, figuras y cambios exactos</div>
+          <!-- Espaciador visual para alinear altura de tarjetas y fuentes -->
+          <div class="my-10"></div>
         </button>
-      <!-- Cuadro informativo ocupando todo el ancho de izquierda a derecha -->
-<div class="w-full col-span-full p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2.5 clear-both">
-  
-  <!-- Explicación de los niveles -->
-  <div class="flex items-start gap-2.5 text-sm">
-    <div class="text-violet-400 mt-0.5 shrink-0">ℹ️</div>
-    <div class="text-slate-300 space-y-1">
-      <p>
-        <strong class="text-white">Nivel 1 (Estándar):</strong> Para repertorio base y covers populares que el músico ya domina y ensaya de forma directa.
-      </p>
-      <p>
-        <strong class="text-white">Nivel 2 (Dedicación y Estudio):</strong> Para música propia o arreglos específicos. El músico dedica horas previas a sacar tus canciones compás por compás antes de llegar al ensayo.
-      </p>
-    </div>
-  </div>
-<div class="pt-2 border-t border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[12px] text-slate-400">
-  <span class="flex items-center gap-1.5">
-    <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-    Garantía de calidad: estudio previo individual
-  </span>
-  <div class="flex items-center gap-2 text-violet-300 font-medium text-sm">
-    <span>Catálogo Base: <strong class="text-white">48h</strong></span>
-    <span>•</span>
-    <span>Música Propia / Personalizado: <strong class="text-white">mín. 5 días</strong></span>
-  </div>
-</div>
+      </div>
+      <!-- Cuadro informativo ocupando todo el ancho -->
+      <div class="w-full col-span-full p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2.5 clear-both">
+        <div class="flex items-start gap-2.5 text-sm">
+          <div class="text-violet-400 mt-0.5 shrink-0">ℹ️</div>
+          <div class="text-slate-300 space-y-1">
+            <p><strong class="text-white">Nivel 1 (Estándar):</strong> Para repertorio base y covers populares que el músico ya domina y ensaya de forma directa.</p>
+            <p><strong class="text-white">Nivel 2 (Dedicación y Estudio):</strong> Para música propia o arreglos específicos. El músico dedica horas previas a sacar tus canciones compás por compás antes de llegar al ensayo.</p>
+          </div>
+        </div>
+        <div class="pt-2 border-t border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[12px] text-slate-400">
+          <span class="flex items-center gap-1.5">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            Garantía de calidad: estudio previo individual
+          </span>
+          <div class="flex items-center gap-2 text-violet-300 font-medium text-sm">
+            <span>Catálogo Base: <strong class="text-white">48h</strong></span>
+            <span>•</span>
+            <span>Música Propia / Personalizado: <strong class="text-white">mín. 5 días</strong></span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- Espaciador -->
-  <div class="h-3"></div>
-   
-<!-- SECCIÓN 4: MÚSICOS DE APOYO REQUERIDOS -->
-<section class="space-y-5 mt-8">
-  <div class="flex items-center justify-between">
+ <!-- SECCIÓN 4: MÚSICOS DE APOYO REQUERIDOS -->
+<section id="seccion-4" class="hidden flex-col justify-between flex-1 min-h-0 space-y-3">
+  
+  <div class="flex-none items-center justify-between">
     <div>
       <h2 class="text-lg font-black uppercase tracking-wider inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#0080C8] via-[#652391] to-[#BA0C6C] [-webkit-text-stroke:1px_black] whitespace-nowrap">4. Músicos de Apoyo Requeridos</h2>
-      <!-- Espaciador -->
-      <div class="h-3"></div>
+      <div class="mt-6"></div>
       <p class="w-full text-left font-bold text-sm text-white">Selecciona los integrantes para tu base</p>
     </div>
   </div>
 
-  <!-- Cuadrícula en 2 columnas -->
-  <div class="grid grid-cols-2 gap-2.5 sm:gap-3.5">
+  <!-- Cuadrícula en 2 columnas que se distribuye equitativamente usando flex-1 y min-h-0 -->
+  <div class="grid grid-cols-2 grid-rows-2 gap-3 flex-1 min-h-0">
     
     <!-- Baterista -->
-    <div onclick="toggleInst('drums')" id="card-drums" class="relative p-2.5 sm:p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer grid grid-cols-[45%_1fr] items-center gap-1.5 transition-all hover:border-slate-700 select-none min-h-[110px]">
-      <!-- Checkbox oculto real para conservar compatibilidad con tu JS -->
+    <div onclick="toggleInst('drums')" id="card-drums" class="relative p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer flex flex-col items-center justify-between transition-all hover:border-slate-700 select-none h-full min-h-0 text-center">
       <input type="checkbox" id="chk-drums" class="hidden">
-
-      <!-- Caja de Check Personalizada (siempre visible y nítida) -->
       <div id="check-icon-drums" class="absolute top-2.5 right-2.5 w-4 h-4 sm:w-5 sm:h-5 rounded-md border border-slate-700 bg-slate-950 flex items-center justify-center transition-all z-10">
-        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-        </svg>
+        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
-
-      <!-- Imagen -->
-      <div class="h-24 sm:h-28 w-full flex items-center justify-center pointer-events-none">
-        <img src="Imágenes/Batería.png" alt="Baterista" class="h-full w-full object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] scale-100">
+      <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
+        <img src="Imágenes/Batería.png" alt="Baterista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
-      
-      <!-- Texto -->
-      <div class="pr-2 flex flex-col justify-center min-w-0 pointer-events-none">
-        <div class="font-extrabold text-sm sm:text-sm md:text-base text-white leading-tight truncate">Baterista</div>
+      <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
+        <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Baterista</div>
         <div class="text-[11px] sm:text-sm text-violet-400 font-bold mt-0.5 rate-label"></div>
-        <div class="text-[10px] text-slate-400 mt-0.5 leading-snug line-clamp-2"></div>
+        <div class="text-[10px] text-slate-400 mt-0.5 leading-snug line-clamp-2 w-full"></div>
       </div>
     </div>
 
     <!-- Bajista -->
-    <div onclick="toggleInst('bass')" id="card-bass" class="relative p-2.5 sm:p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer grid grid-cols-[45%_1fr] items-center gap-1.5 transition-all hover:border-slate-700 select-none min-h-[110px]">
+    <div onclick="toggleInst('bass')" id="card-bass" class="relative p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer flex flex-col items-center justify-between transition-all hover:border-slate-700 select-none h-full min-h-0 text-center">
       <input type="checkbox" id="chk-bass" class="hidden">
-
       <div id="check-icon-bass" class="absolute top-2.5 right-2.5 w-4 h-4 sm:w-5 sm:h-5 rounded-md border border-slate-700 bg-slate-950 flex items-center justify-center transition-all z-10">
-        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-        </svg>
+        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
-
-      <div class="h-24 sm:h-28 w-full flex items-center justify-center pointer-events-none">
-        <img src="Imágenes/Bajo.png" alt="Bajista" class="h-full w-full object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] scale-100">
+      <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
+        <img src="Imágenes/Bajo.png" alt="Bajista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
-      
-      <div class="pr-2 flex flex-col justify-center min-w-0 pointer-events-none">
-        <div class="font-extrabold text-sm sm:text-sm md:text-base text-white leading-tight truncate">Bajista</div>
+      <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
+        <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Bajista</div>
         <div class="text-[11px] sm:text-sm text-violet-400 font-bold mt-0.5 rate-label"></div>
-        <div class="text-[10px] text-slate-400 mt-0.5 leading-snug line-clamp-2"></div>
+        <div class="text-[10px] text-slate-400 mt-0.5 leading-snug line-clamp-2 w-full"></div>
       </div>
     </div>
 
     <!-- Tecladista -->
-    <div onclick="toggleInst('piano')" id="card-piano" class="relative p-2.5 sm:p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer grid grid-cols-[45%_1fr] items-center gap-1.5 transition-all hover:border-slate-700 select-none min-h-[110px]">
+    <div onclick="toggleInst('piano')" id="card-piano" class="relative p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer flex flex-col items-center justify-between transition-all hover:border-slate-700 select-none h-full min-h-0 text-center">
       <input type="checkbox" id="chk-piano" class="hidden">
-
       <div id="check-icon-piano" class="absolute top-2.5 right-2.5 w-4 h-4 sm:w-5 sm:h-5 rounded-md border border-slate-700 bg-slate-950 flex items-center justify-center transition-all z-10">
-        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-        </svg>
+        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
-
-      <div class="h-24 sm:h-28 w-full flex items-center justify-center pointer-events-none">
-        <img src="Imágenes/Teclado.png" alt="Tecladista" class="h-full w-full object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] scale-100">
+      <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
+        <img src="Imágenes/Teclado.png" alt="Tecladista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
-      
-      <div class="pr-2 flex flex-col justify-center min-w-0 pointer-events-none">
-        <div class="font-extrabold text-sm sm:text-sm md:text-base text-white leading-tight truncate">Tecladista</div>
+      <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
+        <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Tecladista</div>
         <div class="text-[11px] sm:text-sm text-violet-400 font-bold mt-0.5 rate-label"></div>
-        <div class="text-[10px] text-slate-400 mt-0.5 leading-snug line-clamp-2"></div>
+        <div class="text-[10px] text-slate-400 mt-0.5 leading-snug line-clamp-2 w-full"></div>
       </div>
     </div>
 
     <!-- Guitarrista -->
-    <div onclick="toggleInst('guitar')" id="card-guitar" class="relative p-2.5 sm:p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer grid grid-cols-[45%_1fr] items-center gap-1.5 transition-all hover:border-slate-700 select-none min-h-[110px]">
+    <div onclick="toggleInst('guitar')" id="card-guitar" class="relative p-3 rounded-2xl border border-slate-800 bg-slate-900/60 opacity-60 cursor-pointer flex flex-col items-center justify-between transition-all hover:border-slate-700 select-none h-full min-h-0 text-center">
       <input type="checkbox" id="chk-guitar" class="hidden">
-
       <div id="check-icon-guitar" class="absolute top-2.5 right-2.5 w-4 h-4 sm:w-5 sm:h-5 rounded-md border border-slate-700 bg-slate-950 flex items-center justify-center transition-all z-10">
-        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-        </svg>
+        <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white hidden pointer-events-none" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
       </div>
-
-      <div class="h-24 sm:h-28 w-full flex items-center justify-center pointer-events-none">
-        <img src="Imágenes/Guitarra.png" alt="Guitarrista" class="h-full w-full object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)] scale-100">
+      <div class="flex-1 w-full flex items-center justify-center pointer-events-none min-h-0 py-1">
+        <img src="Imágenes/Guitarra.png" alt="Guitarrista" class="h-full max-h-[110px] w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
       </div>
-      
-      <div class="pr-2 flex flex-col justify-center min-w-0 pointer-events-none">
-        <div class="font-extrabold text-sm sm:text-sm md:text-base text-white leading-tight truncate">Guitarrista</div>
+      <div class="flex-none w-full flex flex-col items-center min-w-0 pointer-events-none">
+        <div class="font-extrabold text-sm sm:text-base text-white leading-tight truncate w-full">Guitarrista</div>
         <div class="text-[11px] sm:text-sm text-violet-400 font-bold mt-0.5 rate-label"></div>
-        <div class="text-[11px] text-slate-400 mt-0.5 leading-snug line-clamp-2"></div>
+        <div class="text-[11px] text-slate-400 mt-0.5 leading-snug line-clamp-2 w-full"></div>
       </div>
     </div>
 
   </div>
 </section>
-<!-- BARRA INFERIOR FIJA (Selector por Sesiones) -->
-<aside class="fixed bottom-0 left-0 right-0 bg-[#0B0F19]/95 border-t border-slate-800/90 backdrop-blur-md px-4 py-3 z-40">
-  <div class="max-w-xl mx-auto space-y-2.5">
+
+   <!-- BOTONES DE NAVEGACIÓN ENTRE SECCIONES (Fijos en la parte inferior de la caja) -->
+<div class="flex-none flex items-center justify-between gap-3 pt-3">
+  
+  <!-- Botón Anterior (Estilo sobrio) -->
+  <button 
+    id="btn-prev-sec" 
+    onclick="cambiarSeccion(-1)" 
+    type="button" 
+    disabled
+    class="flex-1 py-2.5 px-4 rounded-xl font-semibold text-sm border border-slate-800 bg-slate-900/80 text-slate-400 hover:text-white hover:border-slate-700 hover:bg-slate-800 transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+  >
+    ← Anterior
+  </button>
+
+  <!-- Botón Siguiente (Estilo sobrio y unificado, sin degradado chillón) -->
+  <button 
+    id="btn-next-sec" 
+    onclick="cambiarSeccion(1)" 
+    type="button" 
+    class="flex-1 py-2.5 px-4 rounded-xl font-semibold text-sm border border-slate-800 bg-slate-900/80 text-slate-300 hover:text-white hover:border-slate-700 hover:bg-slate-800 transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+  >
+    Siguiente →
+  </button>
+    </div>
+
+  </div>
+</div>
+<!-- BARRA INFERIOR FIJA (Selector por Sesiones con altura fija h-[96px]) -->
+<aside class="fixed bottom-0 left-0 right-0 h-[96px] flex flex-col justify-center bg-[#0B0F19]/95 border-t border-slate-800/90 backdrop-blur-md px-4 z-40">
+  <div class="w-full max-w-xl mx-auto space-y-2.5">
     
     <!-- Fila superior: Selector de sesiones -->
     <div class="flex items-center justify-between text-xs text-slate-400">
@@ -621,6 +608,39 @@ function entrarALaApp() {
       splash.classList.add('hidden');
     }, 500);
   }
+}
+
+// Controlador de secciones
+let seccionActual = 1;
+const totalSecciones = 4; // Cambia este número según cuántas secciones tengas en total (ej. 3 o 4)
+
+function cambiarSeccion(direccion) {
+  // 1. Calculamos a qué sección queremos ir
+  const nuevaSeccion = seccionActual + direccion;
+
+  // Evitamos que se salga del límite de secciones
+  if (nuevaSeccion < 1 || nuevaSeccion > totalSecciones) return;
+
+  // 2. Ocultamos la sección actual de inmediato
+  const elActual = document.getElementById(`seccion-${seccionActual}`);
+  if (elActual) {
+    elActual.classList.remove('flex');
+    elActual.classList.add('hidden');
+  }
+
+  // 3. Mostramos la nueva sección de inmediato
+  const elNuevo = document.getElementById(`seccion-${nuevaSeccion}`);
+  if (elNuevo) {
+    elNuevo.classList.remove('hidden');
+    elNuevo.classList.add('flex');
+  }
+
+  // 4. Actualizamos el número de sección actual
+  seccionActual = nuevaSeccion;
+
+  // 5. Activamos o desactivamos los botones según el paso en el que estemos
+  document.getElementById('btn-prev-sec').disabled = (seccionActual === 1);
+  document.getElementById('btn-next-sec').disabled = (seccionActual === totalSecciones);
 }
 
     function setFormat(fmt) {
