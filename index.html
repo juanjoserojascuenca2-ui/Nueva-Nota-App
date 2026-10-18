@@ -1660,6 +1660,36 @@ window.addEventListener("load", () => {
   }
 });
 
+// Detectar si el usuario gira el celular a horizontal
+function verificarOrientacion() {
+  // Comprobamos si el ancho es mayor que el alto (significa que está acostado)
+  if (window.innerWidth > window.innerHeight) {
+    // Si no existe el aviso, lo creamos dinámicamente
+    if (!document.getElementById('aviso-rotacion')) {
+      const aviso = document.createElement('div');
+      aviso.id = 'aviso-rotacion';
+      aviso.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0B0F19; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; padding: 20px; font-family: system-ui, sans-serif;';
+      aviso.innerHTML = `
+        <div style="font-size: 48px; margin-bottom: 15px;">📱🔄</div>
+        <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">Por favor, gira tu dispositivo</h2>
+        <p style="font-size: 14px; color: #94A3B8;">Esta aplicación está diseñada exclusivamente para usarse en modo vertical.</p>
+      `;
+      document.body.appendChild(aviso);
+    }
+  } else {
+    // Si vuelve a vertical, eliminamos el aviso
+    const aviso = document.getElementById('aviso-rotacion');
+    if (aviso) {
+      aviso.remove();
+    }
+  }
+}
+
+// Ejecutar al cargar la página y cada vez que cambie de tamaño o giro
+window.addEventListener('load', verificarOrientacion);
+window.addEventListener('resize', verificarOrientacion);
+
+
    function closeModal() {
       const modal = document.getElementById('booking-modal');
       if (modal) modal.classList.add('hidden');
