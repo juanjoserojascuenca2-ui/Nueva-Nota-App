@@ -1651,6 +1651,15 @@ function updateMemberSplit(totalPrice) {
   labelSplit.textContent = `$${perPerson.toLocaleString('es-CO')} COP`;
 }
 
+window.addEventListener("load", () => {
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock("portrait").catch((error) => {
+      // Los navegadores móviles a veces requieren que la app esté en pantalla completa (Fullscreen) para permitir el bloqueo por código.
+      console.log("Bloqueo de orientación no soportado o requiere fullscreen", error);
+    });
+  }
+});
+
    function closeModal() {
       const modal = document.getElementById('booking-modal');
       if (modal) modal.classList.add('hidden');
